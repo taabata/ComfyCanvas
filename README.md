@@ -98,3 +98,5 @@ https://github.com/Fannovel16/comfyui_controlnet_aux.git
 
 https://github.com/BadCafeCode/masquerade-nodes-comfyui.git
 
+https://github.com/taabata/Comfy_Syrian_Falcon_Nodes.git
+
