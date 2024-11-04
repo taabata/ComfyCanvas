@@ -1,0 +1,86 @@
+{
+  "34": {
+    "inputs": {
+      "seed": 993969723888326
+    },
+    "class_type": "OutpaintCanvasTool",
+    "_meta": {
+      "title": "OutpaintCanvasTool"
+    }
+  },
+  "35": {
+    "inputs": {
+      "images": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "36": {
+    "inputs": {
+      "images": [
+        "34",
+        1
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "37": {
+    "inputs": {
+      "images": [
+        "34",
+        2
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "49": {
+    "inputs": {
+      "low_threshold": 0.4,
+      "high_threshold": 0.8,
+      "image": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "Canny",
+    "_meta": {
+      "title": "Canny"
+    }
+  },
+  "50": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "51",
+        0
+      ]
+    },
+    "class_type": "SaveImage_Canvas",
+    "_meta": {
+      "title": "SaveImage_Canvas"
+    }
+  },
+  "51": {
+    "inputs": {
+      "image": [
+        "49",
+        0
+      ]
+    },
+    "class_type": "ComfyNodesToSaveCanvas",
+    "_meta": {
+      "title": "ComfyNodesToSaveCanvas"
+    }
+  }
+}

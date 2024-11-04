@@ -1,0 +1,603 @@
+#settings2{
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(to bottom,rgb(44, 44, 44) 80%, rgb(36, 36, 36));
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 3;
+    visibility: hidden;
+}
+
+#msg{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    visibility: hidden;
+    font-size: 50px;
+    background-color: rgb(80, 80, 80);
+}
+
+#source,#sourceunder,#taesdcanvas{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+
+}
+
+#selector{
+    width: 256px;
+    height: 256px;
+    background-color: transparent;
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    border: 2px solid green;
+    transform: translate(-50%,-50%);
+    z-index: 3;
+}
+
+#openimg{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font-size: xx-large;
+    text-align: center;
+}
+
+#uploadcontainer{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0%;
+    opacity: 0;
+    background: linear-gradient(to bottom,black,rgb(20,20,20),black);
+    left: 0%;
+    z-index: 4;
+    
+}
+#sourceimg{
+    display: none;
+}
+#source,.canvas{
+    z-index: 2;
+}
+#taesdcanvas{
+    z-index: 1;
+}
+
+#moveimg2{
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    width: 10%;
+    height: 50%;
+    background-color: rgb(80, 80, 80);
+    transform: translate(-50%,-50%);
+    font-weight: bolder;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    cursor: pointer;
+}
+#moveimg2:hover{
+    background-color: rgb(20, 20, 20);
+}
+
+.moveimgclass,#done,#moveimg1{
+    position: absolute;
+    top: 50%;
+    width: 10%;
+    height: 50%;
+    background-color: rgb(80, 80, 80);
+    transform: translate(-50%,-50%);
+    font-weight: bolder;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+}
+.moveimgclass:hover{
+    background-color: rgb(20, 20, 20);
+}
+#done{
+    left: 95%;
+}
+#moveimg1{
+    left: 5%;
+}
+
+#cancel{
+    position: fixed;
+    width: 20%;
+    height: 5%;
+    top: 12%;
+    left: 94%;
+    visibility: hidden;
+    color: wheat;
+    transform: rotate(45deg);
+    cursor: pointer;
+    font-size: 150px;
+    z-index: 1001;
+}
+
+#cancel:hover{
+    filter: brightness(50%);
+}
+
+#compare{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    background-color: rgba(255, 0, 0, 0.336);
+    overflow: hidden;
+    visibility: hidden;
+    z-index: 2;
+}
+
+
+
+
+
+
+/*##################################################*/
+
+html{
+    background: linear-gradient(to bottom,rgb(20, 20, 20) 80%, rgb(0, 0, 0));
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+input{
+    background-color: rgb(20, 20, 20);
+    border-radius: 5%;
+    outline: none;
+    caret-color: transparent;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 1px solid transparent;
+    text-align: center;
+}
+
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;    
+}
+
+#container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#settings{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    background: linear-gradient(to bottom,rgb(52, 52, 52) 80%, rgb(44, 44, 44));
+    display: flex;
+    align-items:start;
+    z-index: 3;
+    padding-top: 0.5%;
+    padding-left: 1%;
+    padding-right: 1%;
+    box-shadow: 10px 10px 20px black;
+}
+
+#settingsbarbtns{
+    width: 25%;
+    height: 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items:flex-start;
+    flex-wrap: wrap;
+}
+
+#settingsbarparams{
+    width: 46%;
+    height: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items:flex-start;
+    flex-wrap: wrap;
+}
+
+#workflowsettings, #generalsettings{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+
+#locksetts, #lockfull, #othersetts{
+    display: flex;
+    height: 30%;
+}
+
+#lockfull .btn,#locksetts .btn, #othersetts .btn{
+    width: 100%;
+    padding: 3%;
+}
+
+#settingsbarthird{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 80%;
+    padding-left: 5%;
+}
+
+#uploadanotherimg,#openimgadd,#openimgadd2{
+    position: absolute;
+    width: 2%;
+    height: 40%;
+    top: 30%;
+    left: 72.5%;
+    
+}
+
+#openimgadd2{
+    opacity: 0;
+}
+
+#uploadanotherimg{
+    display: flex;
+    background-color: rgb(20, 20, 20);
+    justify-content: center;
+    align-items: center;
+}
+
+#openimgadd{
+    opacity: 0;
+}
+
+.icontxt{
+    font-size: 50px;
+}
+
+.btn{
+    display: flex;
+    width: 25%;
+    height: 25%;
+    padding: 1%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: rgb(80, 80, 80);
+    cursor: pointer;
+    border: 1px solid rgb(40, 40, 40);
+    border-radius: 8%;
+}
+.btn:hover{
+    background-color: rgb(20, 20, 20);
+}
+
+.txt{
+    color: white;
+    font-size: medium;
+    font-weight: bolder;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+#saveexit, #undo{
+    visibility: hidden;
+}
+
+.uploadstyle{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 10vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#hint{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 20%;
+    height: 8%;
+    border: 2px solid orange;
+    visibility: hidden;
+    z-index: 100;
+}
+
+#textinput{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 20%;
+    height: 8%;
+    border: 2px solid orange;
+    visibility: hidden;
+    z-index: 100;
+}
+
+#hint *{
+    color: orange;
+}
+
+#textinput *{
+    color: orange;
+}
+
+#resetref p{
+    font-size: small;
+}
+
+#drawer{
+    position: fixed;
+    top: 0%;
+    left: 99%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 25%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgb(20,20,20);
+    box-shadow: -10px 10px 50px black;
+    cursor: pointer;
+}
+
+#gligencont{
+    position: absolute;
+    width: 25%;
+    height: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid orange;
+    visibility: hidden;
+    z-index: 100;
+}
+
+.gligcond{
+    width: 20%;
+    height: 8%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;    
+    cursor: pointer;
+}
+
+#gligenconfirm{
+    display: flex;
+    width: 25%;
+    height: 10%;
+    padding: 1%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: white;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+#gligenmain{
+    background: rgba(0, 0, 0, 0.322);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    outline: transparent;
+}
+
+#settingsbarbtns *{
+    max-width: 22%;
+    font-size: 0.85rem;
+}
+
+#inprange,#gridrange{
+    width: 10%;
+    height: 10%;
+    accent-color: rgb(20,20,20);
+    outline: none;
+}
+#stack{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 100;
+    background: black;
+    visibility: hidden;
+    justify-content: space-between;
+    overflow: scroll;
+    scrollbar-width:none;
+    scrollbar-color: transparent;
+}
+#stack *,#stack * *{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    color: white;
+    outline: transparent;
+    margin-top:1%;
+    margin-bottom: 1%;
+    text-align: center;
+}
+
+.stackbar{
+    width: 100%;
+    height: 5%;
+    background: linear-gradient(to bottom,rgb(20, 20, 20) 80%, rgb(15, 15, 15),transparent);
+    font-size: xx-large;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    color: white;
+    outline: transparent;
+    cursor: pointer;
+}
+
+.node{
+    width: 30%;
+    height: 35%;
+    background: linear-gradient(to bottom,rgb(44, 44, 44) 80%, rgb(36, 36, 36),transparent);
+    display: grid;
+    grid-template-areas: 
+                "title title title title"
+                "main main main main"
+                "main main main main"
+                "main main main main"
+    ;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.nodetitle{
+    /* width: 100%;
+    height: 25%; */
+    background: rgb(44, 44, 44);
+    grid-area: title;
+}
+.nodemain{
+    /* width: 100%;
+    height: 75%; */
+    grid-area: main;
+    display: grid;
+    grid-template-areas: 
+                "in inps inps out"
+                "in inps inps out"
+                "in inps inps out"
+    ;
+
+}
+.nodein{
+    /* width: 20%;
+    height: 100%; */
+    background: rgb(36, 36, 36);
+    grid-area: in;
+}
+.nodeinps{
+    /* width: 60%;
+    height: 100%; */
+    background: rgb(50, 50, 50);
+    grid-area: inps;
+}
+.nodeout{
+    /* width: 20%;
+    height: 100%; */
+    background: rgb(36, 36, 36);
+    grid-area: out;
+}
+
+.inputvarcont{
+    display: grid;
+    grid-template-areas: "title empty empty var";
+}
+
+.inputtitle{
+    grid-area: title;
+}
+
+.inputvar{
+    grid-area: var;
+}
+
+
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgb(20,20,20);
+    min-width: 160px;
+    max-height: 500px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    overflow: scroll;
+    scrollbar-width: none;
+    z-index: 3;
+    cursor: pointer;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: white;
+    padding: 12px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: rgb(44, 44, 44)}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: transparent;
+}
+.inputvarcont [class*="dropdown-content"]{
+    display: none;
+    position: sticky;
+    top: 16px;
+}
+
+#grid{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    visibility: hidden;
+    z-index: 1;
+}
+#blockactions{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    visibility: hidden;
+}
+#aura{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    filter: blur(50px);
+    background:  linear-gradient(to left,red,green,blue,yellow,cyan,magenta);
+    border-radius: 50%;
+    transition: 1s;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%,-50%);
+}
+
+
+
+/*###############################*/
+
+
+
