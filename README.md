@@ -2,6 +2,8 @@
 
 Canvas to use with ComfyUI 
 
+<img src='https://github.com/taabata/ComfyCanvas/blob/main/ComfyCanvas.png'> 
+
 
 # Installation
 
