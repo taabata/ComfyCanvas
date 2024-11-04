@@ -1,0 +1,113 @@
+{
+  "3": {
+    "inputs": {},
+    "class_type": "BRIA_RMBG_ModelLoader_Zho",
+    "_meta": {
+      "title": "🧹BRIA_RMBG Model Loader"
+    }
+  },
+  "17": {
+    "inputs": {
+      "rmbgmodel": [
+        "3",
+        0
+      ],
+      "image": [
+        "37",
+        2
+      ]
+    },
+    "class_type": "BRIA_RMBG_Zho",
+    "_meta": {
+      "title": "🧹BRIA RMBG"
+    }
+  },
+  "37": {
+    "inputs": {
+      "seed": 1056236704582682
+    },
+    "class_type": "OutpaintCanvasTool",
+    "_meta": {
+      "title": "OutpaintCanvasTool"
+    }
+  },
+  "41": {
+    "inputs": {
+      "images": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "42": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "43",
+        0
+      ]
+    },
+    "class_type": "SaveImage_Canvas",
+    "_meta": {
+      "title": "SaveImage_Canvas"
+    }
+  },
+  "43": {
+    "inputs": {
+      "image": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "ComfyNodesToSaveCanvas",
+    "_meta": {
+      "title": "ComfyNodesToSaveCanvas"
+    }
+  },
+  "44": {
+    "inputs": {
+      "mask": [
+        "49",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "48": {
+    "inputs": {
+      "force_resize_width": 0,
+      "force_resize_height": 0,
+      "image": [
+        "37",
+        2
+      ],
+      "mask": [
+        "44",
+        0
+      ]
+    },
+    "class_type": "Cut By Mask",
+    "_meta": {
+      "title": "Cut By Mask"
+    }
+  },
+  "49": {
+    "inputs": {
+      "mask": [
+        "17",
+        1
+      ]
+    },
+    "class_type": "InvertMask",
+    "_meta": {
+      "title": "InvertMask"
+    }
+  }
+}
