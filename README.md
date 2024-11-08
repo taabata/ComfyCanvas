@@ -100,5 +100,5 @@ https://github.com/Fannovel16/comfyui_controlnet_aux.git
 
 https://github.com/BadCafeCode/masquerade-nodes-comfyui.git
 
-https://github.com/taabata/Comfy_Syrian_Falcon_Nodes.git
+https://github.com/taabata/Comfy_Syrian_Falcon_Nodes.git (just download the .py file and put in ComfyUI/custom_nodes)
 
