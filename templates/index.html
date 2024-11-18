@@ -7,6 +7,10 @@
     </head>
     <body onwheel="changesize(event);" onmousemove="mousecoordinates(event);" onkeydown="printLetter(event);">
         <script src="/static/app.js"></script>
+        <script>
+            var host = '{{host}}';
+            var port = '{{port}}';
+        </script>
         <div id="container" onmouseenter="reset();" style="width: 100%;height: 100%;">
             <canvas id="grid"></canvas>
             <div id="aura"></div>
