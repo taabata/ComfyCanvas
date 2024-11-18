@@ -10,7 +10,7 @@ import comfy.utils
 import logging
 from pathlib import Path
 from urllib import request
-import base64, io, json
+import base64, io, json, os
 
 MAX_PREVIEW_RESOLUTION = args.preview_size
 
@@ -33,7 +33,7 @@ def preview_to_image(latent_image,newsample=False):
                         }
             }
             data = json.dumps(p).encode('utf-8')
-            req =  request.Request("http://localhost:5000/settaesd", data=data)
+            req =  request.Request(f"http://{args.listen}:{os.environ['CANVASPORT']}/settaesd", data=data)
             req.add_header("Content-Type", "application/json")
             request.urlopen(req)
         except Exception as e: 
@@ -125,4 +125,3 @@ def prepare_callback(model, steps, x0_output_dict=None):
             preview_bytes = previewer.decode_latent_to_preview_image(preview_format, x0)
         pbar.update_absolute(step + 1, total_steps, preview_bytes)
     return callback
-
