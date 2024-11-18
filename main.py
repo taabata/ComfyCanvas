@@ -80,7 +80,7 @@ def grabwfsmodels():
 def cancelgen():
     global genflag
     genflag = True
-    req =  rq.Request("http://127.0.0.1:8188/interrupt",data={})
+    req =  rq.Request(f"http://{args.listen}:8188/interrupt",data={})
     rq.urlopen(req)
     return{}
 
@@ -102,7 +102,7 @@ def saveimg():
         def queue_prompt(prompt_workflow):
             p = {"prompt": prompt_workflow}
             data = json.dumps(p).encode('utf-8')
-            req =  rq.Request("http://127.0.0.1:8188/prompt", data=data)
+            req =  rq.f"http://{args.listen}:8188/prompt", data=data)
             rq.urlopen(req)
         path = Path('./workflows')
         prompt_workflow = json.load(open(os.path.join(path,wf)))
@@ -146,7 +146,7 @@ def generate():
     def queue_prompt(prompt_workflow):
         p = {"prompt": prompt_workflow}
         data = json.dumps(p).encode('utf-8')
-        req =  rq.Request("http://127.0.0.1:8188/prompt", data=data)
+        req =  rq.Request(f"http://{args.listen}:8188/prompt", data=data)
         rq.urlopen(req)
     path = Path('./workflows')
     prompt_workflow = json.load(open(os.path.join(path,wf)))
