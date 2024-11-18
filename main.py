@@ -8,7 +8,7 @@ try:
 	from signal import SIGKILL
 except:
 	from signal import SIGABRT
-import json, socket
+import json, socket, argparse
 
 def stopprocess():
     pid = os.getpid()
@@ -20,6 +20,10 @@ def stopprocess():
 from pathlib import Path
 import numpy as np
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--canvasport", default="5000")
+parser.add_argument("--listen", type=str, default="127.0.0.1", metavar="IP", nargs="?", const="0.0.0.0,::", help="Specify the IP address to listen on (default: 127.0.0.1). You can give a list of ip addresses by separating them with a comma like: 127.2.2.2,127.3.3.3 If --listen is provided without an argument, it defaults to 0.0.0.0,:: (listens on all ipv4 and ipv6)")
+args = parser.parse_args()
 
 ip = ""
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -43,7 +47,7 @@ bs = 512
 
 @app.route("/")
 def index():
-    return render_template('index.html',byte_im="",w="",h="",bs=bs)
+    return render_template('index.html',byte_im="",w="",h="",bs=bs,host=args.listen,port=args.canvasport)
 
 
 @app.route('/favicon.ico')
@@ -178,6 +182,7 @@ def generate():
         n = nn
         for idx,i in enumerate(gligparams):
             if idx<=len(gligparams)-2:
+                n+=1
                 prompt_workflow[str(n)] = {
                     "inputs": {
                     "text": i["text"],
@@ -210,6 +215,7 @@ def generate():
                     }
                 }
                 n+=1
+                tt = "6" if idx==0 else str(n-3)
                 prompt_workflow[str(n)] = {
                     "inputs": {
                     "conditioning_1": [
@@ -217,7 +223,7 @@ def generate():
                         0
                     ],
                     "conditioning_2": [
-                        "6" if idx==0 else str(n-3),
+                        tt,
                         0
                     ]
                     },
@@ -542,6 +548,7 @@ def savedata():
 
 
 if __name__ == "__main__":
-    webbrowser.open("http://localhost:5000")
-    app.run(debug=False)
+    print(args)
+    webbrowser.open(f"http://{args.listen}:{args.canvasport}")
+    app.run(host=args.listen,port=args.canvasport,debug=False)
     
