@@ -381,7 +381,7 @@ window.onload = function(){
 }
 
 function prepare(){
-    fetch('http://localhost:5000/prepare'
+    fetch('http://'+host+':'+port+'/prepare'
     ).then(function (response) {
         responseClone = response.clone();
         return response.json();
@@ -882,7 +882,7 @@ function saveimg(){
         
     }
     savedata["pxlsarray"] = pxlsarray;
-    fetch('http://localhost:5000/saveimg',{
+    fetch('http://'+host+':'+port+'/saveimg',{
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({"pixels":savedata["pxlsarray"]})
@@ -895,7 +895,7 @@ function saveimg(){
 }
 
 function grabwfsmodels(id = "", paramsdata={},j="", addtype=""){
-    fetch('http://localhost:5000/grabwfsmodels')
+    fetch('http://'+host+':'+port+'/grabwfsmodels')
     .then(function (response){
         return response.json();
     })
@@ -959,7 +959,7 @@ function generate(){
     for(let i =0;i< Object.keys(gligenparams).length;i++){
         gligenparamsarray.push(gligenparams[Object.keys(gligenparams)[i]]);
     }
-    fetch('http://localhost:5000/generate', {
+    fetch('http://'+host+':'+port+'/generate', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({"wf":selwf,"model":selmod,"params":params,"gligparams":gligenparamsarray,"lora":sellora,"changedparams":changedparams})
@@ -972,7 +972,7 @@ function generate(){
 }
 
 function cancelgen(){
-    fetch('http://localhost:5000/cancelgen')
+    fetch('http://'+host+':'+port+'/cancelgen')
     .then(function (response){
         return response.json();
     })
@@ -1006,7 +1006,7 @@ function saved(savedata){
         
     }
     savedata["pxlsarray"] = pxlsarray;
-    fetch('http://localhost:5000/savedata', {
+    fetch('http://'+host+':'+port+'/savedata', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({"savedata":savedata,"selectorsize":selectorsize,"taesd":taesd,"img2img":img2img})
@@ -2286,7 +2286,7 @@ function uploadnewimage(){
 function expandDrawer(){
     drawerflag = !drawerflag;
     if(drawerflag){
-        fetch('http://localhost:5000/getImagesPaths'
+        fetch('http://'+host+':'+port+'/getImagesPaths'
         ).then(function (response) {
             responseClone = response.clone();
             return response.json();
@@ -2736,7 +2736,7 @@ function printLetter(evt){
 }
 
 function stackNodes(){
-    fetch('http://localhost:5000/getnodes', {
+    fetch('http://'+host+':'+port+'/getnodes', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({"wf":selwf})
