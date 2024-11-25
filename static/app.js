@@ -1,4 +1,8 @@
 var loneFlag = false;
+var routine = {};
+var routineon = false;
+var routinerecflag = false;
+var selroutine = "";
 var generating = false;
 var grid = false;
 var gridsize = 128;
@@ -840,7 +844,6 @@ function maskmodeon(){
             cmask.style.top = document.getElementById("source").style.top;
             cmask.style.zIndex = "1000";
             cmask.onclick = function(){
-                console.log(maskenableflag);
                 drawenable();
             }
             cmask.onmousemove = function(){
@@ -910,6 +913,15 @@ function grabwfsmodels(id = "", paramsdata={},j="", addtype=""){
                     paramset();
                 }
                 document.getElementById("wfscont").append(el);
+            }
+            for(let i =0;i<data["routines"].length;i++){
+                var el = document.createElement("a");
+                el.innerHTML =  data["routines"][i];
+                el.onclick = function(evt){
+                    selroutine = evt.target.innerHTML;
+                    document.getElementById("routinebutton").innerHTML = evt.target.innerHTML;
+                }
+                document.getElementById("routinecont").append(el);
             }
         }
         if(id=="" || addtype=="model"){
@@ -984,7 +996,7 @@ function saved(savedata){
     var responseClone;   
     var canvas = document.getElementById("source");
     var ctx = canvas.getContext("2d");
-    imgData = ctx.getImageData(0, 0, canvas.width,canvas.height);
+    /* imgData = ctx.getImageData(0, 0, canvas.width,canvas.height);
     data = imgData.data;
     pxls = [];
     for (let i = 0; i < data.length; i += 4) {
@@ -1006,6 +1018,7 @@ function saved(savedata){
         
     }
     savedata["pxlsarray"] = pxlsarray;
+    console.log(savedata["pxlsarray"]); */
     fetch('http://'+host+':'+port+'/savedata', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -1113,6 +1126,7 @@ function saved(savedata){
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0);
                     fsimgs["main"] = canvas.toDataURL();
+                    routineon = false;
                 }
                 img.src = data["img"];
 
@@ -1192,6 +1206,116 @@ function saved(savedata){
     });
     
 }
+
+function recordRoutine(){
+    if(routinerecflag){
+        routinerecflag = false;
+        let name = prompt("Enter routine name: ");
+        document.getElementById("routinerecord").style.backgroundColor = "rgb(80, 80, 80)";
+        fetch('http://'+host+':'+port+'/saveRoutine',
+        {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({"routine":routine,"name":name})
+
+        }).
+        then(function(response){
+            return response.json();
+        }).
+        then(data=>{
+            console.log("routine saved");
+        });
+    }
+    else{
+        routinerecflag = true;
+        routine = {};
+        document.getElementById("routinerecord").style.backgroundColor = "rgb(20, 20, 20)";
+    }
+    
+}
+
+function getRoutine(){
+    if(document.getElementById("routinebutton").innerHTML!="Select Routine"){
+        fetch('http://'+host+':'+port+'/getRoutine',
+            {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({"routine":selroutine})
+
+            }).
+        then(function(response){
+            return response.json();
+        }).
+        then(data=>{
+            startRoutine(data["routine"],0);
+        });
+    }
+    
+}
+
+function startRoutine(routine,n){
+    if(n==0){
+        document.getElementById("routinestart").style.backgroundColor = "rgb(20, 20, 20)";
+    }
+    if(!genflag && !routineon && (document.getElementById("cancel").style.visibility != "visible")){
+        pxlsarray = savedata["pxlsarray"];
+        mskarray = savedata["mskarray"];
+        savedata = {...routine[n]["savedata"]};
+        savedata["pxlsarray"] = pxlsarray;
+        savedata["mskarray"] = mskarray;
+        selectorsize = routine[n]["selectorsize"];
+        taesd = routine[n]["taesd"];
+        img2img = routine[n]["img2img"];
+        selwf = routine[n]["selwf"]; 
+        selmod = routine[n]["selmod"];
+        sellora = routine[n]["sellora"];
+        params = routine[n]["params"];
+        gligenparamsarray = routine[n]["gligenparamsarray"];
+        changedparams = routine[n]["changedparams"];  
+        boxleft = routine[n]["boxleft"];  
+        boxtop = routine[n]["boxtop"]; 
+        document.getElementById("source").style.left = routine[n]["canvasleft"];
+        document.getElementById("source").style.top = routine[n]["canvastop"];  
+        var canvas = document.getElementById("source");
+        var ctx = canvas.getContext("2d"); 
+        document.getElementById("source").width = routine[n]["canvaswidth"];
+        document.getElementById("source").height = routine[n]["canvasheight"];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var img = new Image;
+        if(imagetomove==""){
+            img.src = fsimgs["main"];
+        }
+        else{
+            img.src = fsimgs[imagetomove];
+        }
+        
+        img.onload = function(){
+            ctx.drawImage(img, 0, 0, img.width,img.height,0, 0, canvas.width, canvas.height);
+            document.getElementById("sourceimg"+imagetomove).src = canvas.toDataURL();
+            document.getElementById("oldimg").width = canvas.width;
+            document.getElementById("oldimg").height = canvas.height;
+            document.getElementById("oldimg").src = canvas.toDataURL();
+            routineon = true; 
+            savejson();
+            if(n<Object.keys(routine).length-1){
+                n++;  
+                setTimeout(() => {
+                    startRoutine(routine,n);
+                }, 1000);
+            }
+            else{
+                document.getElementById("routinestart").style.backgroundColor = "rgb(80, 80, 80)";
+            }
+
+        } 
+    }
+    else{
+        setTimeout(() => {
+            startRoutine(routine,n);
+        }, 1000);
+    }
+}
+
 function mousecoordinates(event){
     prevmousex = mousex;
     prevmousey =mousey;
@@ -2100,9 +2224,61 @@ function savejson(){
     tempctx.drawImage(canvas, savedata["additionaldims"]["left"], savedata["additionaldims"]["top"]);    
     document.getElementById("oldimg").src = tempcanvas.toDataURL();
     tempcanvas.remove();
+    if(routinerecflag){
+        let altdata = {...savedata};
+        altdata["pxlsarray"] = "";
+        altdata["mskarray"] = "";
+        routine[Object.keys(routine).length] = {
+            "savedata":altdata,
+            "selectorsize":selectorsize,
+            "taesd":taesd,
+            "img2img":img2img,
+            "selwf":selwf,
+            "selmod":selmod,
+            "sellora":sellora,
+            "params":params,
+            "changedparams":changedparams,
+            "boxleft":boxleft,
+            "boxtop":boxtop,
+            "canvasleft":document.getElementById("source").style.left,
+            "canvastop":document.getElementById("source").style.top,
+            "canvaswidth":document.getElementById("source").width,
+            "canvasheight":document.getElementById("source").height,
+
+        };
+    }
+    if(true){
+        var responseClone;   
+        var canvas = document.getElementById("source");
+        var ctx = canvas.getContext("2d");
+        imgData = ctx.getImageData(0, 0, canvas.width,canvas.height);
+        data = imgData.data;
+        pxls = [];
+        for (let i = 0; i < data.length; i += 4) {
+            var pixel = [];
+            pixel.push(data[i]);
+            pixel.push(data[i+1]);
+            pixel.push(data[i+2]);
+            pixel.push(data[i+3]);
+            pxls.push(pixel);
+        }
+        var pxlsarray = [[]];
+        for(i = 0;i<pxls.length;i++){
+            pxlsarray[pxlsarray.length-1].push(pxls[i]);
+            if(i<pxls.length-2){
+                if((i+1)%canvas.width==0 && i>canvas.width-10){
+                    pxlsarray.push([]);
+                }
+            }
+            
+        }
+        savedata["pxlsarray"] = pxlsarray;
+        
+    }
     saved(savedata);
     
 }
+
 
 function reset(){
     var selec = document.getElementById("selector");
@@ -3016,4 +3192,67 @@ function auraAnimate(n,dir="up",clrs=[[255,0,0],[0,255,255],[0,255,0],[0,0,255],
             }, 50);
         }
     }
+}
+
+function setImageWidth(e){
+    var canvas = document.getElementById("source");
+    var ctx = canvas.getContext("2d"); 
+    document.getElementById("source").width = e.target.value;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var img = new Image;
+    if(imagetomove==""){
+        img.src = fsimgs["main"];
+    }
+    else{
+        img.src = fsimgs[imagetomove];
+    }
+    
+    img.onload = function(){
+        ctx.drawImage(img, 0, 0, img.width,img.height,0, 0, canvas.width, canvas.height);
+        document.getElementById("sourceimg"+imagetomove).src = canvas.toDataURL();
+        document.getElementById("oldimg").width = canvas.width;
+        document.getElementById("oldimg").height = canvas.height;
+        document.getElementById("oldimg").src = canvas.toDataURL();
+
+    }
+    e.target.value = "";
+}
+
+function setImageHeight(e){
+    var canvas = document.getElementById("source");
+    var ctx = canvas.getContext("2d");  
+    document.getElementById("source").height = e.target.value;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var img = new Image;
+    if(imagetomove==""){
+        img.src = fsimgs["main"];
+    }
+    else{
+        img.src = fsimgs[imagetomove];
+    }
+    
+    img.onload = function(){
+        ctx.drawImage(img, 0, 0, img.width,img.height,0, 0, canvas.width, canvas.height);
+        document.getElementById("sourceimg"+imagetomove).src = canvas.toDataURL();
+        document.getElementById("oldimg").width = canvas.width;
+        document.getElementById("oldimg").height = canvas.height;
+        document.getElementById("oldimg").src = canvas.toDataURL();
+
+    }
+    e.target.value = "";
+}
+
+function setImageOpacity(e){
+    var c = document.getElementById("source");
+    var ctx = c.getContext("2d");  
+    var imgData = ctx.getImageData(0,0,c.width,c.height);
+    var data = imgData.data;
+    var pxls = [];
+    for (let i = 0; i < data.length; i += 4) {
+        data[i + 3] = parseInt(e.target.value); 
+    }
+    ctx.putImageData(imgData,0,0);
+    document.getElementById("sourceimg").src = c.toDataURL();
+    fsimgs["main"] = document.getElementById("sourceimg").src;
+    e.target.value = "";
 }
