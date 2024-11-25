@@ -74,13 +74,16 @@ def grabwfsmodels():
     wfs = [i.replace(".json","") for i in wfs]
     path = Path('../../models/loras')
     loras = [i for i in sorted(os.listdir(path)) if i.endswith((".safetensors"))]
-    return{"models":models,"wfs":wfs,"loras":loras}
+    path = Path('./routines')
+    routines = sorted(os.listdir(path))
+    routines = [i.replace(".json","") for i in routines]
+    return{"models":models,"wfs":wfs,"loras":loras,"routines":routines}
 
 @app.route("/cancelgen",methods=['GET', 'POST','DELETE'])
 def cancelgen():
     global genflag
     genflag = True
-    req =  rq.Request(f"http://{args.listen}:8188/interrupt",data={})
+    req =  rq.Request("http://127.0.0.1:8188/interrupt",data={})
     rq.urlopen(req)
     return{}
 
@@ -102,7 +105,7 @@ def saveimg():
         def queue_prompt(prompt_workflow):
             p = {"prompt": prompt_workflow}
             data = json.dumps(p).encode('utf-8')
-            req =  rq.f"http://{args.listen}:8188/prompt", data=data)
+            req =  rq.Request("http://127.0.0.1:8188/prompt", data=data)
             rq.urlopen(req)
         path = Path('./workflows')
         prompt_workflow = json.load(open(os.path.join(path,wf)))
@@ -135,6 +138,24 @@ def getNodes():
     prompt_workflow = json.load(open(os.path.join(path,wf)))
     return{"prompt_workflow":prompt_workflow}
 
+
+@app.route("/getRoutine",methods=['GET', 'POST','DELETE'])
+def getRoutine():
+    filename = request.json["routine"]+".json"
+    path = Path('./routines')
+    routine = json.load(open(os.path.join(path,filename)))
+    return{"routine":routine}
+
+
+@app.route("/saveRoutine",methods=['GET', 'POST','DELETE'])
+def saveRoutine():
+    filename = request.json["name"]
+    routine = request.json["routine"]
+    with open(f"./routines/{filename}.json","w") as file:
+        file.write(json.dumps(routine))
+    return{}
+
+
 @app.route("/generate",methods=['GET', 'POST','DELETE'])
 def generate():
     wf = request.json["wf"]
@@ -146,7 +167,7 @@ def generate():
     def queue_prompt(prompt_workflow):
         p = {"prompt": prompt_workflow}
         data = json.dumps(p).encode('utf-8')
-        req =  rq.Request(f"http://{args.listen}:8188/prompt", data=data)
+        req =  rq.Request("http://127.0.0.1:8188/prompt", data=data)
         rq.urlopen(req)
     path = Path('./workflows')
     prompt_workflow = json.load(open(os.path.join(path,wf)))
@@ -175,7 +196,10 @@ def generate():
                 prompt_workflow[str(n)]["class_type"] = "GLIGENTextBoxApply"
                 prompt_workflow[str(n)]["_meta"]["title"] = "GLIGENTextBoxApply"
         prompt_workflow["6"]["inputs"]["text"] = gligparams[-1]["text"]
-        prompt_workflow["3"]["inputs"]["positive"] = [str(nn+int(len(gligparams)-2)),0]
+        if "outpaint" in wf:
+            prompt_workflow["30"]["inputs"]["positive"] = [str(nn+int(len(gligparams)-2)),0]
+        else:
+            prompt_workflow["3"]["inputs"]["positive"] = [str(nn+int(len(gligparams)-2)),0]
     if "areacomp" in wf:
         print(gligparams)
         nn = int(list(prompt_workflow.keys())[-1])+1
@@ -459,7 +483,7 @@ def savedata():
         ########################
 
 
-
+        
         sharedata["imgs"]["image"] = json.dumps(np.array(bg).tolist())
         if whitepix == 0:
             border = Image.new("RGB",(bg2.size[0],bg2.size[1]),(0,0,0)) 
@@ -469,6 +493,7 @@ def savedata():
             bg2 = border
             img2img = "img2img"
         bg2 = bg2.filter(ImageFilter.BoxBlur(ff-int(ff/2)))
+        
         if request.json["savedata"]["mskarray"]=="":
             sharedata["imgs"]["mask"] = json.dumps(np.array(bg2).tolist())
         else:
