@@ -73,6 +73,10 @@ python3 run main.py
 
 **"h"**: hide settings bar.
 
+**Rec. Routine:** record processes on an image as a routine to be applied to other images.
+
+**Start Routine:** start a saved routine after selecting it from the dropdown list.
+
 
 # Other Github repos to clone (workflows include nodes from these):
 
