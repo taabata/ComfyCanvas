@@ -211,12 +211,12 @@ p{
     flex-wrap: wrap;
 }
 
-#workflowsettings, #generalsettings{
+#workflowsettings, #generalsettings, #moresettings{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 50%;
+    height: 40%;
 }
 
 #locksetts, #lockfull, #othersetts{
@@ -594,7 +594,13 @@ p{
     opacity: 0;
     transform: translate(-50%,-50%);
 }
+#routinerecord,#routinestart{
+    width: 10%;
+}
 
+#routinerecord p,#routinestart p{
+    font-size: 80%;
+}
 
 
 /*###############################*/
