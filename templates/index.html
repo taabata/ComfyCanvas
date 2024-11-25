@@ -79,6 +79,21 @@
                         <input id="inprange" type="range" min="0" max="255" step="1">
                         <input id="gridrange" type="range" min="64" max="512" value="128" step="64" onchange="setGridSize(event);">
                     </div>
+                    <div id="moresettings">
+                        <p id="label4">Image Width: </p>
+                        <input type="text" id="imgwidth" onchange="setImageWidth(event);" size="4">
+                        <p id="label5">Image Height: </p>
+                        <input id="imgheight" type="text" size="4"  onchange="setImageHeight(event);">
+                        <p id="label6">Image Opacity: </p>
+                        <input type="text" id="imgopacity" onchange="setImageOpacity(event);" size="4">
+                        <div id="routinerecord" class="btn" onclick="recordRoutine();"><p class="txt">Rec. Routine</p></div>
+                        <div id="routinestart" class="btn" onclick="getRoutine();"><p class="txt">Start Routine</p></div>
+                        <div class="dropdown" id="routinesdropdown">
+                            <button class="dropbtn" id="routinebutton">Select Routine</button>
+                            <div class="dropdown-content" id="routinecont">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="settingsbarthird">
                     <div id="locksetts">
