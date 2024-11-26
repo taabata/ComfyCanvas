@@ -78,7 +78,7 @@ python3 run main.py
 **Start Routine:** start a saved routine after selecting it from the dropdown list.
 
 
-# Other Github repos to clone (workflows include nodes from these):
+# Other GitHub repos to clone (workflows include nodes from these):
 
 https://github.com/taabata/LCM_Inpaint_Outpaint_Comfy.git
 
