@@ -8,19 +8,20 @@ Canvas to use with ComfyUI
 # Installation
 
 1. Clone this repo into ComfyUI/custom_nodes
-'''
+```
 git clone https://github.com/taabata/ComfyCanvas.git
-'''
+```
 2. Run setup.py after changing directory to ComfyCanvas
-'''
+```
 cd ComfyCanvas
+
 python3 run setup.py 
-'''
+```
 3. In a terminal/cmd tab,start ComfyUI
 4. In another terminal/cmd, run main.py
-'''
+```
 python3 run main.py 
-'''
+```
 5. Enjoy!!
 
 **Note: Windows users may face issues due to paths, let me know in the issues tab.**
@@ -78,7 +79,7 @@ python3 run main.py
 **Start Routine:** start a saved routine after selecting it from the dropdown list.
 
 
-# Other Github repos to clone (workflows include nodes from these):
+# Other GitHub repos to clone (workflows include nodes from these):
 
 https://github.com/taabata/LCM_Inpaint_Outpaint_Comfy.git
 
