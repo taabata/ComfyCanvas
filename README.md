@@ -15,12 +15,12 @@ git clone https://github.com/taabata/ComfyCanvas.git
 ```
 cd ComfyCanvas
 
-python3 run setup.py 
+python3 setup.py 
 ```
 3. In a terminal/cmd tab,start ComfyUI
 4. In another terminal/cmd, run main.py
 ```
-python3 run main.py 
+python3 main.py 
 ```
 5. Enjoy!!
 
